@@ -1,0 +1,198 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> Outcome </title>
+
+  <!-- Add CSS -->
+  <center><style>
+  .popup{
+    width: 0 auto;
+    margin: 25px 50px 25px 0px; /* auto */
+  }
+  .popup img{
+    width: 100px;
+    height: 100px;
+    cursor: pointer
+  }
+  .show{
+    z-index: 999;
+    display: none;
+  }
+  .show .overlay{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.66);
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  .show .img-show{
+    padding-top: 10px;
+    width: 600px;
+    height: 400px;
+    background: #FFF;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    overflow:
+  }
+  .img-show span{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 99;
+    cursor: pointer;
+  }
+  .img-show img{
+    width: 100%;
+    height: 100%; /**/
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .btn {
+    border: none; /* Remove borders */
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+  }
+  .default {background-color: #e7e7e7; color: black;} /* Gray */ 
+  .default:hover {background: #ddd;}
+  </style>
+
+  <!-- Add JS -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>
+  $(function () {
+
+      "use strict";
+
+      $(".popup img").click(function () {
+          var $src = $(this).attr("src");
+          $(".show").fadeIn();
+          $(".img-show img").attr("src", $src);
+      });
+    
+      $("span, .overlay").click(function () {
+          $(".show").fadeOut();
+      });
+    
+  });
+  </script>
+</head>
+
+
+  <!--<body style="background:url('../static/10.png') no-repeat; width:100%; height:200px">-->
+
+  <body>
+    <h3><br><br><br>
+    <center>
+          <img src="../static/web03.png"  filter: alpha(opacity="50")　width="40%" height="40%" alt=""><br><br>
+          <font size="5.5" face="Andale Mono, monospace" color=#363636>
+              測試結果<br>
+              Test Results</font></center>
+        </span>
+        </div> 
+    </h3><br><br><br>
+
+　　　　<font size="3" face="Andale Mono, monospace" color="black">
+    <table border= 2 rules = "all" width=80% cellpadding=5><!--start a table-->
+　     <tr bgcolor=#B5B5B5><!--coral-->
+　       <th align=left valign=middle　width=60>　測試項目　</th>
+　       <th align=center valign=middle>　測試結果　</th>
+　     </tr>
+
+　     <!--Output I: error-->
+　       {% for i in range(n0) %}
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> {{er_n}} </th>
+        <td>{{ er_v }}</td>
+      </tr>
+　　　　　　　　{% endfor %}
+
+
+　     <!--Output II: result-->
+　       {% for i in range(n0_2) %}
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> {{res_n}} </th>
+        <td>{{ res_v }}</td>
+      </tr>
+　       {% endfor %}
+
+
+　     <!--Output III: fail_result-->
+　　　　　　　　{% for i in range(n1)%}
+　     <tr bgcolor=ghostwhite>
+　       <th >{{ out_n1[i] }}</th>
+　       <td>{{ out_v1[i] }}</td>
+　     </tr>
+　　　　　　　　{% endfor %}
+
+
+　     <!--Output IV: basic_inof-->
+　　　　　　　　{% for i in range(n2)%}
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle>{{ out_n2[i] }}</th>
+　       <td>{{ out_v2[i] }}</td>
+　     </tr>
+　　　　　　　　{% endfor %}
+
+        <!--PSNR_low popup img-->
+　　　　　　　　{% for i in range(pn)%}
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle>{{Plow_n}}</th>
+
+　       <td>
+　         <div class="popup"><!--show img : pop up form -->
+　           {% for i in range(pnum) %}
+　           <img src="{{Plow_v[i]}}"></a>
+　           {% endfor %}
+　         </div>
+　         <div class="show">
+　           <div class="overlay"></div>
+　           <div class="img-show">
+　             <span>X</span>
+　             <img src="">
+　           </div>
+　         </div>
+　       </td>
+
+
+　     </tr>
+        {% endfor %} <!--end PSNR_low popup img-->
+
+
+　     <!--Other Output: err img-->
+　　　　　　　　{% for i in range(en)%}
+　     <tr align=center bgcolor=ghostwhite>
+　       <th align=center valign=middle>{{err_n}}</th>
+　       <td align=center>
+
+　         <div class="popup"><!--show img : pop up form -->
+　           {% for i in range(enum) %}
+　           <img src="{{err_id[i]}}"></a>
+　           {% endfor %}
+　         </div>
+　         <div class="show">
+　           <div class="overlay"></div>
+　           <div class="img-show">
+　             <span>X</span>
+　             <img src="">
+　           </div>
+　         </div>
+
+　       </td>
+　     </tr>
+        {% endfor %} <!--end err img popup img-->
+    </table></font><br><br>
+
+    <center><!--Button: download output and turn back-->
+        <a href="/output-downloads" target="blank"><button class="btn default">下載測試結果</button></a>
+        <input type ="button" class="btn default" onclick="javascript:location.href='http://127.0.0.1:5000/'" value="回首頁 Home"></input>
+    </center><br><br><br>
+
+  </body>
+</html>
+
+

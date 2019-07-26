@@ -1,0 +1,129 @@
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> Form </title>
+    <style>
+        .btn {
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            cursor: pointer;
+        }
+        .default {background-color: #e7e7e7; color: black;}
+        .default:hover {background: #ddd;}
+    </style>
+</head>
+
+<!--<body style="background:url('../static/14.png') no-repeat; fixed;">-->
+<body>
+
+    <h3><br><br>
+          <center>
+          <img src="../static/web01.png"  filter: alpha(opacity="50")　width="35%" height="35%" alt=""><br><br>
+          <font size="5.8" face="Andale Mono, monospace" color=#363636>
+              自動化影像擷取循環比對測試系統<br>
+              Automated image capture cycle comparison test system</font></center>
+    </h3><br><br>
+
+
+  <div align="center">
+    <h4 style="color: #B22222; text-align: center;">
+      <span style="color: #B22222;">
+        <TT>請填入以下資訊<br>
+        *為必填欄位<br></TT>
+      </span>
+    </h4>
+
+    <font size="3" face="Andale Mono, monospace" color="black">
+      <form action="/form" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p><!--1-->
+                {{ form.name.label }}<br>
+                <span style="color: #666666;">
+                    <TT>Ex. H264_1080p.mp4</TT>
+                </span><br>
+                {{ form.name(size=32) }}<br>
+                {% for error in form.name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p><!--2-->
+                {{ form.gd_folder.label }}<br>
+                {{ form.gd_folder() }}<br>
+                {% for error in form.gd_folder.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p><!--3-->
+                {{ form.test_time.label }}<br>
+                <span style="color: #666666;">
+                    <TT>輸入範圍：0.1-1800(s)</TT>
+                </span><br>
+                {{ form.test_time(size=8) }}
+                {% for error in form.test_time.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p><!--4-->
+                {{ form.core_num.label }}<br>
+                {{ form.core_num() }}<br>
+                {% for error in form.core_num.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>            
+            <p><!--5-->
+                {{ form.res.label }}<br>
+                {{ form.res() }}<br>
+                {% for error in form.res.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>                     
+            <p><!--6-->
+                {{ form.PSNR_type.label }}<br>
+                {{ form.PSNR_type() }}<br>
+                {% for error in form.PSNR_type.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>            
+            <p><!--7-->
+                {{ form.IDLB.label }}<br>
+                <span style="color: #666666;">
+                    <TT>輸入範圍：0-1</TT>
+                </span><br>
+                {{ form.IDLB(size=8) }}<br>
+                {% for error in form.IDLB.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p><!--8-->
+                {{ form.PSNR_LB.label }}<br>
+                <span style="color: #666666;">
+                    <TT>輸入範圍：1-100</TT>
+                </span><br>
+                {{ form.PSNR_LB(size=8) }}<br>
+                {% for error in form.PSNR_LB.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p><!--9-->
+                {{ form.con_fail.label }}<br>
+                <span style="color: #666666;">
+                    <TT>輸入範圍：1-25</TT>
+                </span><br>
+                {{ form.con_fail(size=8) }}
+                {% for error in form.con_fail.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p><br><br>
+            <input type="submit" name="submit" class="btn default" value="確定 Submit" />
+            <!--<button class="btn default">{{ form.submit() }}</button>-->
+          </font><br><br><br>
+
+    </form>
+  </body>
+</html>
+
+
+

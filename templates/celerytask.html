@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <title>Automated image capture cycle comparison test system</title>
+    <style>
+        .progress {
+            width: 100%;
+            text-align: center;
+        }
+        .btn {
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            cursor: pointer;
+        }
+        .default {background-color: #e7e7e7; color: black;}
+        .default:hover {background: #ddd;}
+    </style>
+  </head>
+  <!--<body style="background:url('../static/09.png') no-repeat; width:100%; height:200px">-->
+
+  <body>
+    <h3><br><br><br>
+          <center>
+          <img src="../static/web02.png"  filter: alpha(opacity="50")　width="36%" height="36%" alt=""><br><br>
+          <font size="5.8" face="Andale Mono, monospace" color=#363636>
+              自動化影像擷取循環比對測試系統<br>
+              Automated image capture cycle comparison test system</font></center>
+    </h3><br><br><br>
+
+
+    <font size="3" face="Andale Mono, monospace" color="black">
+    <table align=center border= 2 rules = "all" width=80% cellpadding=5><!--start a table-->
+　     <tr bgcolor=#B5B5B5><!--coral-->
+　       <th align=center valign=middle　width=60>　輸入項目(參數名稱)　</th>
+　       <th align=center valign=middle>　輸入內容　</th>
+　     </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 影片名稱(srcfile) </th>
+        <td>　{{ formData.name }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 比對資料夾名稱/檔案名稱(golden_file) </th>
+        <td>　{{ formData.gd_folder_file }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 比對檔案最大編號(max_id) </th>
+        <td>　{{ formData.gd_maxid }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 執行結果檔案夾名稱(outfile) </th>
+        <td>　{{ formData.outfile }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 擷取影像結果檔案夾名稱(dstfile) </th>
+        <td>　{{ formData.dstfile }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> PSNR數值檔案名稱(PSNRfile) </th>
+        <td>　{{ formData.PSNR_file }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 參數紀錄檔案名稱(parfile) </th>
+        <td>　{{ formData.parfile }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 測試結果檔案名稱(resfile) </th>
+        <td>　{{ formData.resfile }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 測試時間(duration) </th>
+        <td>　{{ formData.test_time }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 執行核心數量(nummp) </th>
+        <td>　{{ formData.core_num }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 影像解析度寬(width) </th>
+        <td>　{{ formData.res_width }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 影像解析度長(height) </th>
+        <td>　{{ formData.res_height }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 影像格式(PSNR_type) </th>
+        <td>　{{ formData.PSNR_type_str }}　</td> <!--+++-->
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 判斷標準--成功率臨界值(IDLB) </th>
+        <td>　{{ formData.IDLB }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> PSNR數值最低標準(PSNR_LB) </th>
+        <td>　{{ formData.PSNR_LB }}　</td>
+      </tr>
+
+　     <tr bgcolor=ghostwhite>
+　       <th align=center valign=middle> 連續判斷失敗擷取影像數量(con_fail) </th>
+        <td>　{{ formData.con_fail }}　</td>
+      </tr>
+    </table></font><br><br>
+
+
+    <!--<button onclick="start_long_task();">Start Long Calculation</button><br><br>-->
+    <center><button class="btn default" id="start-bg-job"> 執行 Start </button><br><br>
+    <div id="progress"></div>
+
+    <!-- .js file is for the nanobar -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <input type ="button" class="btn default" onclick="history.back()" value="上一頁 Previous"></input></center><br><br><br>
+    <script>
+        function start_long_task() {
+            // hide the button
+            $('#start-bg-job').hide();
+            // add task status elements
+            div = $('<div class="progress"><div></div><div>0%</div><div>...</div><div>&nbsp;</div></div><hr>');
+            $('#progress').append(div);
+            // create a progress bar
+            var nanobar = new Nanobar({
+                bg: '#44f',
+                target: div[0].childNodes[0]
+            });
+            // send ajax POST request to start background job
+            $.ajax({
+                type: 'POST',
+                url: '/longtask',
+                success: function(data, status, request) {
+                    status_url = request.getResponseHeader('Location');
+                    update_progress(status_url, nanobar, div[0]);
+                },
+                error: function() {
+                    alert('Unexpected error');
+                }
+            });
+        }
+
+
+        function update_progress(status_url, nanobar, status_div) {
+            // send GET request to status URL
+            $.getJSON(status_url, function(data) {
+                // update UI: percent, nanobar, state, result
+                percent = parseInt(data['current'] * 100 / data['total']);
+                nanobar.go(percent);
+                $(status_div.childNodes[1]).text(percent + '%');
+                $(status_div.childNodes[2]).text(data['status']);
+                if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+                    if ('result' in data) {
+                        if (data['result'] == 'Outputting the results ...') {
+                            document.location.href="http://127.0.0.1:5000/output";
+                        }
+                        else {
+                            // show result
+                            $(status_div.childNodes[3]).text('Result: ' + data['result']);
+                        }
+                    }
+                    else {
+                        // something unexpected happened
+                        $(status_div.childNodes[3]).text('Result: ' + data['state']);
+                    }
+                }
+                else {
+                    // rerun in 1 seconds
+                    setTimeout(function() {
+                        update_progress(status_url, nanobar, status_div);
+                    }, 1000);
+                }
+            });
+        }
+
+
+        $(function() {
+            $('#start-bg-job').click(start_long_task);
+        });
+
+    </script>
+  </body>
+</html>
